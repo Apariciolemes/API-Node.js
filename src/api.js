@@ -50,7 +50,7 @@ app.put('/projects/:id', (request, response) => {
 
     const findIndex = projects.findIndex(item => item.id == id);
 
-    if (projectID < 0) {
+    if (findIndex < 0) {
         return response.status(400).json({ error: 'Projeto não existe' });
     }
     projects.splice(findIndex, 1, {
