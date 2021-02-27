@@ -4,7 +4,7 @@ const app = express();
 app.use(express.json())
 
 app.listen(3000, () => {
-    console.log('Escutando o back-end');
+    console.log('Listen back-end');
 })
 
 /**
@@ -18,8 +18,8 @@ app.listen(3000, () => {
 let projects = [];
 
 app.get('/projects', (request, response) => {
-        return response.json(projects)
-    })
+    return response.json(projects)
+})
 
 app.post('/projects', (request, response) => {
     const { projeto, author, idade } = request.body;
@@ -38,28 +38,27 @@ app.delete('/projects/:id', (request, response) => {
     const findIndex = projects.findIndex(item => item.id === id);
 
     if (findIndex < 0) {
-        return response.status(400).json('Usuário não existe');
+        return response.status(400).json('Este projeto não existe');
     }
-    projects.splice(id, 1);
-    return response.status(204).json('Removido com sucesso');
+    projects.splice(findIndex, 1);
+    return response.status(204).json('Projeto removido com sucesso');
 })
 
 app.put('/projects/:id', (request, response) => {
     const { id } = request.params;
     const { projeto, author, idade } = request.body;
 
-    const projectID = projects.findIndex(item => item.id == id);
+    const findIndex = projects.findIndex(item => item.id == id);
 
-    if (projectID >= 0) {
-        projects.splice(id, 1, {
-            id,
-            projeto,
-            author,
-            idade
-        })
-        return response.json('Usuario editado com sucesso!');
+    if (projectID < 0) {
+        return response.status(400).json({ error: 'Projeto não existe' });
     }
-
-    return response.status(400).json({ error: 'Project not found.' });
+    projects.splice(findIndex, 1, {
+        id,
+        projeto,
+        author,
+        idade
+    })
+    return response.json('Projeto editado com sucesso!');
 })
 
