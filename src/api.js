@@ -1,4 +1,3 @@
-const { response } = require('express');
 const express = require('express');
 const { uuid } = require('uuidv4'); // id
 const app = express();
@@ -19,8 +18,8 @@ app.listen(3000, () => {
 let projects = [];
 
 app.get('/projects', (request, response) => {
-    return response.json(projects)
-})
+        return response.json(projects)
+    })
 
 app.post('/projects', (request, response) => {
     const { projeto, author, idade } = request.body;
@@ -35,8 +34,14 @@ app.post('/projects', (request, response) => {
 
 app.delete('/projects/:id', (request, response) => {
     const { id } = request.params;
+
+    const findIndex = projects.findIndex(item => item.id === id);
+
+    if (findIndex < 0) {
+        return response.status(400).json('Usuário não existe');
+    }
     projects.splice(id, 1);
-    return response.json('Removido com sucesso');
+    return response.status(204).json('Removido com sucesso');
 })
 
 app.put('/projects/:id', (request, response) => {
@@ -45,14 +50,14 @@ app.put('/projects/:id', (request, response) => {
 
     const projectID = projects.findIndex(item => item.id == id);
 
-    if (projectID) {
+    if (projectID >= 0) {
         projects.splice(id, 1, {
             id,
             projeto,
             author,
             idade
         })
-        return response.json('Usuario editado com sucesso!')
+        return response.json('Usuario editado com sucesso!');
     }
 
     return response.status(400).json({ error: 'Project not found.' });
