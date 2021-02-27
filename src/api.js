@@ -38,10 +38,10 @@ app.delete('/projects/:id', (request, response) => {
     const findIndex = projects.findIndex(item => item.id === id);
 
     if (findIndex < 0) {
-        return response.status(400).json('Usuário não existe');
+        return response.status(400).json('Este projeto não existe');
     }
     projects.splice(findIndex, 1);
-    return response.status(204).json('Removido com sucesso');
+    return response.status(204).json('Projeto removido com sucesso');
 })
 
 app.put('/projects/:id', (request, response) => {
@@ -51,7 +51,7 @@ app.put('/projects/:id', (request, response) => {
     const findIndex = projects.findIndex(item => item.id == id);
 
     if (projectID < 0) {
-        return response.status(400).json({ error: 'Project not found.' });
+        return response.status(400).json({ error: 'Projeto não existe' });
     }
     projects.splice(findIndex, 1, {
         id,
@@ -59,6 +59,6 @@ app.put('/projects/:id', (request, response) => {
         author,
         idade
     })
-    return response.json('Usuario editado com sucesso!');
+    return response.json('Projeto editado com sucesso!');
 })
 
