@@ -1,8 +1,6 @@
 # API-Node.js
 Javascript / Node.js / Express / uuidv4
 
-# API - Node.js
-
 **Rodar o projeto**
 
 Ao clonar o projeto abra o terminal e execute o comando
